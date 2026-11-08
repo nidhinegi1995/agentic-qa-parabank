@@ -1,0 +1,1359 @@
+[
+  {
+    "id": "TC-BILLPAY-001",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Happy path: pay a bill with all valid fields shows exact confirmation",
+    "priority": "P1",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 25.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "25.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $25.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" #fromAccountId shows the selected From account number. Browser title is \"ParaBank | Bill Payment Complete\". No inline validation errors shown. (AC1, AC2, AS10)"
+  },
+  {
+    "id": "TC-BILLPAY-002",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Successful payment debits From account by exact amount and logs one Debit transaction",
+    "priority": "P1",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50). Starting balance recorded from Accounts Overview.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 25.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment.",
+      "Open Accounts Overview and read the From account balance.",
+      "Open the From account Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "25.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "From account balance = starting balance - $25.00 exactly. Account Activity shows exactly one new transaction: type Debit, description \"Bill Payment to Acme Utilities\", amount $25.00, dated today. (AC2, AS11)"
+  },
+  {
+    "id": "TC-BILLPAY-003",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Whole-number amount is formatted to 2 decimals on confirmation",
+    "priority": "P2",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 25.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "25",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $25.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" #amount shows \"$25.00\". Balance reduced by $25.00. (AS6, AS10)"
+  },
+  {
+    "id": "TC-BILLPAY-004",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Paying another own account debits From only and does not credit the payee account",
+    "priority": "P2",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50). A second fresh account B opened in setup; both balances recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Account # and Verify Account # = account B number; Amount 10.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment.",
+      "Read balances of From account and account B in Accounts Overview."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "<account B>",
+      "verifyAccount": "<account B>",
+      "amount": "10.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $10.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" From balance reduced by exactly $10.00; account B balance unchanged and no new transaction on account B. Payment is allowed (no block). (AS11, AS17)"
+  },
+  {
+    "id": "TC-BILLPAY-005",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Payee Account # equal to the From account is allowed and debits once",
+    "priority": "P3",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Account # and Verify Account # = the From account number; Amount 5.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment.",
+      "Open From account Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "<fromAccount>",
+      "verifyAccount": "<fromAccount>",
+      "amount": "5.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $5.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" From balance reduced by exactly $5.00 (net), with exactly one Debit \"Bill Payment to Acme Utilities\" and no Credit. (AS17)"
+  },
+  {
+    "id": "TC-BILLPAY-006",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "From dropdown lists only own accounts with first preselected; non-default selection is used",
+    "priority": "P2",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Read all options in the fromAccountId select and compare with GET services_proxy/bank/customers/12434/accounts.",
+      "Verify the selected option on load.",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Select the fresh funded account (not the first option).",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Dropdown options exactly equal the set of account IDs returned for customer 12434 (no other customer accounts); the first option is selected on load. After submit, #fromAccountId on the confirmation equals the selected fresh account and only that account is debited $1.00. (AC1, AS9)"
+  },
+  {
+    "id": "TC-BILLPAY-007",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Free-text State, Zip and formatted Phone are accepted (no format validation)",
+    "priority": "P3",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 2.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "California",
+      "zipCode": "ABC",
+      "phone": "(555) 123-4567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "2.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "No inline errors for State, Zip Code or Phone #. Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $2.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" (AS2)"
+  },
+  {
+    "id": "TC-BILLPAY-008",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Empty form submission shows all required-field messages at once and sends no request",
+    "priority": "P1",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Leave every field empty.",
+      "Click Send Payment.",
+      "Observe inline errors and network traffic."
+    ],
+    "testData": {
+      "allFields": "<empty>"
+    },
+    "expectedResult": "All of these show simultaneously: \"Payee name is required.\", \"Address is required.\", \"City is required.\", \"State is required.\", \"Zip Code is required.\", \"Phone number is required.\", \"Account number is required.\" (Account # and Verify Account #), \"The amount cannot be empty.\". No POST to services_proxy/bank/billpay is sent; form stays displayed; no confirmation. (A1, AS1, AS12)"
+  },
+  {
+    "id": "TC-BILLPAY-009",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Whitespace-only text fields are treated as empty",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Enter a single space in Payee Name, Address, City, State, Zip Code and Phone #.",
+      "Enter valid Account #, Verify Account # and Amount.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "\" \"",
+      "address": "\" \"",
+      "city": "\" \"",
+      "state": "\" \"",
+      "zipCode": "\" \"",
+      "phone": "\" \"",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"Payee name is required.\", \"Address is required.\", \"City is required.\", \"State is required.\", \"Zip Code is required.\", \"Phone number is required.\" all shown. No POST sent; no debit. (AS1)"
+  },
+  {
+    "id": "TC-BILLPAY-010",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Each mandatory field left blank individually shows only its own message (data-driven)",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "For each of the 9 inputs: navigate to billpay.htm.",
+      "Fill all fields with valid data except the field under test, which is left empty.",
+      "Click Send Payment.",
+      "Check the inline error for that field and that no other error is shown."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "blankField": "payee.name|payee.address.street|payee.address.city|payee.address.state|payee.address.zipCode|payee.phoneNumber|payee.accountNumber|verifyAccount|amount",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Exactly one message per run: name -> \"Payee name is required.\"; street -> \"Address is required.\"; city -> \"City is required.\"; state -> \"State is required.\"; zipCode -> \"Zip Code is required.\"; phoneNumber -> \"Phone number is required.\"; accountNumber -> \"Account number is required.\"; verifyAccount -> \"Account number is required.\" (#validationModel-verifyAccount-empty); amount -> \"The amount cannot be empty.\". No request sent; no debit. (AC1, AS1)"
+  },
+  {
+    "id": "TC-BILLPAY-011",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Several invalid fields are reported together inline",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Leave Payee Name empty, enter mismatching Verify Account #, enter Amount abc, fill the rest validly.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "99999",
+      "amount": "abc",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"Payee name is required.\", \"The account numbers do not match.\" and \"Please enter a valid amount.\" are all visible at the same time, inline next to their fields. No request sent; form keeps the entered values. (A12, AS12)"
+  },
+  {
+    "id": "TC-BILLPAY-012",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Non-numeric payee Account # is rejected",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "abc",
+      "verifyAccount": "abc",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "#validationModel-account-invalid shows \"Please enter a valid number.\" (and the same under Verify Account #). No request sent; From account balance unchanged and no new transaction in Account Activity. (AS3)"
+  },
+  {
+    "id": "TC-BILLPAY-013",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Mixed alphanumeric payee Account # (12abc) is rejected without debit",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12abc",
+      "verifyAccount": "12abc",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "No \"Bill Payment Complete\" confirmation. Either inline \"Please enter a valid number.\" is shown, or the #billpayError panel shows \"Error!\" / \"An internal error has occurred and has been logged.\". From account balance unchanged and no new transaction in Account Activity. (AS3, AS12)"
+  },
+  {
+    "id": "TC-BILLPAY-014",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Payee Account # at Integer max 2147483647 is accepted",
+    "priority": "P3",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "2147483647",
+      "verifyAccount": "2147483647",
+      "amount": "1.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $1.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" From balance reduced by exactly $1.00. (AS3)"
+  },
+  {
+    "id": "TC-BILLPAY-015",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Payee Account # above Integer max (2147483648) is rejected without debit",
+    "priority": "P2",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "2147483648",
+      "verifyAccount": "2147483648",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "No \"Bill Payment Complete\" confirmation; an inline validation message or the \"Error!\" / \"An internal error has occurred and has been logged.\" panel is shown. From account balance unchanged and no new transaction in Account Activity. (AS3)"
+  },
+  {
+    "id": "TC-BILLPAY-016",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Verify Account # mismatch is rejected client-side",
+    "priority": "P1",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12346",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "#validationModel-verifyAccount-mismatch shows \"The account numbers do not match.\". No POST to services_proxy/bank/billpay; no confirmation; From account balance unchanged and no new transaction in Account Activity. (AS4)"
+  },
+  {
+    "id": "TC-BILLPAY-017",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Empty Verify Account # shows required message, not mismatch",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill all fields validly but leave Verify Account # empty.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "#validationModel-verifyAccount-empty shows \"Account number is required.\"; \"The account numbers do not match.\" is NOT shown. No request sent. (AS4)"
+  },
+  {
+    "id": "TC-BILLPAY-018",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Verify Account # with leading zero (012345 vs 12345) is a mismatch",
+    "priority": "P3",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "012345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"The account numbers do not match.\" shown; no request sent; no debit. (AS4 exact-text comparison)"
+  },
+  {
+    "id": "TC-BILLPAY-019",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Verify Account # with trailing space is a mismatch",
+    "priority": "P3",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "\"12345 \"",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"The account numbers do not match.\" shown; no request sent; no debit. (AS4 exact-text comparison)"
+  },
+  {
+    "id": "TC-BILLPAY-020",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Non-numeric Verify Account # shows invalid-number message",
+    "priority": "P3",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "abc",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "#validationModel-verifyAccount-invalid shows \"Please enter a valid number.\"; no request sent; no debit. (AS4)"
+  },
+  {
+    "id": "TC-BILLPAY-021",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Empty Amount is rejected",
+    "priority": "P1",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Leave Amount empty.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "#validationModel-amount-empty shows \"The amount cannot be empty.\"; no request sent; no debit. (AS1)"
+  },
+  {
+    "id": "TC-BILLPAY-022",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Non-numeric Amount (abc) is rejected",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount abc.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "abc",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "#validationModel-amount-invalid shows \"Please enter a valid amount.\"; no request sent; no debit. (AS6)"
+  },
+  {
+    "id": "TC-BILLPAY-023",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Amount with currency symbol ($10) is rejected",
+    "priority": "P3",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount $10.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "$10",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"Please enter a valid amount.\" shown; no confirmation; From account balance unchanged and no new transaction in Account Activity. (AS6)"
+  },
+  {
+    "id": "TC-BILLPAY-024",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Amount with thousands separator (1,000) is rejected with no money moved",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1,000.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1,000",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"Please enter a valid amount.\" shown (or the payment is otherwise rejected); no \"Bill Payment Complete\"; neither $1.00 nor $1,000.00 debited; From account balance unchanged and no new transaction in Account Activity. (AS6)"
+  },
+  {
+    "id": "TC-BILLPAY-025",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Amount with trailing text (10abc) is rejected with no money moved",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 10abc.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "10abc",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"Please enter a valid amount.\" shown (or the payment is otherwise rejected); no \"Bill Payment Complete\"; no $10.00 debit; From account balance unchanged and no new transaction in Account Activity. (AS6)"
+  },
+  {
+    "id": "TC-BILLPAY-026",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Amount in scientific notation (1e3) is rejected",
+    "priority": "P3",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1e3.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1e3",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "\"Please enter a valid amount.\" shown; no \"Bill Payment Complete\"; no $1,000.00 debit; From account balance unchanged and no new transaction in Account Activity. (AS6: plain 2-dp currency only)"
+  },
+  {
+    "id": "TC-BILLPAY-027",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Amount 0 is rejected",
+    "priority": "P1",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 0.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "0",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Inline validation message shown on Amount (e.g. \"Please enter a valid amount.\"); no \"Bill Payment Complete\"; no $0.00 Debit transaction created; From account balance unchanged and no new transaction in Account Activity. Expect defect — see AS5."
+  },
+  {
+    "id": "TC-BILLPAY-028",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Negative Amount (-1) is rejected and does not credit the account",
+    "priority": "P1",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount -1.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "-1",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Inline validation message shown on Amount; no \"Bill Payment Complete\"; balance NOT increased by $1.00; From account balance unchanged and no new transaction in Account Activity. Expect defect — see AS5."
+  },
+  {
+    "id": "TC-BILLPAY-029",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Minimum valid Amount 0.01 is accepted",
+    "priority": "P1",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 0.01.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "0.01",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $0.01 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" From balance reduced by exactly $0.01; one Debit \"Bill Payment to Acme Utilities\" of $0.01. (AS5)"
+  },
+  {
+    "id": "TC-BILLPAY-030",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Sub-cent Amount 0.001 is rejected or rounded without corrupting the balance",
+    "priority": "P2",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Throwaway account only (Transfer R1: sub-cent amounts corrupted accounts). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 0.001.",
+      "Click Send Payment.",
+      "Open Accounts Overview and the account Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "0.001",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Either \"Please enter a valid amount.\" is shown and balance is unchanged, or the amount is rounded to $0.00/$0.01 consistently on confirmation and in history. Accounts Overview and Account Activity for the account still load without error and show the balance to 2 dp. (AS6)"
+  },
+  {
+    "id": "TC-BILLPAY-031",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Three-decimal Amount 10.005 is rejected or rounded consistently",
+    "priority": "P3",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Throwaway account only. Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 10.005.",
+      "Click Send Payment.",
+      "Open Accounts Overview and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "10.005",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Either \"Please enter a valid amount.\" is shown and balance is unchanged, or exactly $10.01 (or $10.00) is debited and the same value is shown on the confirmation and in Account Activity; account pages still load. (AS6)"
+  },
+  {
+    "id": "TC-BILLPAY-032",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Paying the exact available balance is accepted and leaves $0.00",
+    "priority": "P1",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50). Fund the account with exactly 100.00.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount equal to the exact balance (100.00).",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment.",
+      "Open Accounts Overview."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "<exact balance, e.g. 100.00>",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Form hidden; #billpayResult shows heading \"Bill Payment Complete\" and text \"Bill Payment to Acme Utilities in the amount of $100.00 from account {fromAccount} was successful.\" followed by \"See Account Activity for more details.\" From account balance is exactly $0.00. (AS7)"
+  },
+  {
+    "id": "TC-BILLPAY-033",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Paying balance + 0.01 is rejected for insufficient funds",
+    "priority": "P1",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Funded with exactly 100.00.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 100.01.",
+      "Select the expendable account.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "100.01",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Payment rejected with an insufficient-funds message; no \"Bill Payment Complete\"; balance remains $100.00; no new transaction. Expect defect — see AS7."
+  },
+  {
+    "id": "TC-BILLPAY-034",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Payment from an account with balance <= 0 is rejected",
+    "priority": "P2",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance brought to $0.00 in setup (do not use 13566).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Select the zero-balance expendable account.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Payment rejected with an insufficient-funds message; no \"Bill Payment Complete\"; balance remains $0.00 (not -$1.00); no new transaction. Expect defect — see AS7."
+  },
+  {
+    "id": "TC-BILLPAY-035",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Very large Amount 999999999 does not succeed",
+    "priority": "P2",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 999999999.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "999999999",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "No \"Bill Payment Complete\" for $999999999.00; payment rejected (validation/limit message or error panel) or capped; balance not reduced by $999,999,999.00. (AS8 — exact limit pending PO)"
+  },
+  {
+    "id": "TC-BILLPAY-036",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Payee Name of 239 characters is accepted and shown in full",
+    "priority": "P3",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Select the From account # in the fromAccountId dropdown.",
+      "Click Send Payment.",
+      "Open From account Account Activity."
+    ],
+    "testData": {
+      "payeeName": "\"A\" x 239",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Confirmation #payeeName shows the full 239-character name; Account Activity shows description \"Bill Payment to \" + the full 239-character name (255 chars); balance reduced by $1.00. (AS16)"
+  },
+  {
+    "id": "TC-BILLPAY-037",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Payee Name of 240 characters is rejected without debit",
+    "priority": "P3",
+    "type": "Boundary",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment.",
+      "Check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "\"A\" x 240",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "A validation message is shown for Payee Name (no \"Bill Payment Complete\"); From account balance unchanged and no new transaction in Account Activity. (AS16 — 239-char limit pending PO)"
+  },
+  {
+    "id": "TC-BILLPAY-038",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Server-side failure shows generic error panel and moves no money",
+    "priority": "P2",
+    "type": "Negative",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance recorded. Playwright route makes POST services_proxy/bank/billpay return HTTP 500.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment.",
+      "Remove the route; check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "mockStatus": "500",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Form hidden; #billpayError shows \"Error!\" and \"An internal error has occurred and has been logged.\"; no \"Bill Payment Complete\"; From account balance unchanged and no new transaction in Account Activity. (A12, AS12)"
+  },
+  {
+    "id": "TC-BILLPAY-039",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Bill-pay API refuses a From account owned by another customer",
+    "priority": "P1",
+    "type": "Security",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). An account ID owned by a different customer identified (e.g. register a second user and open an account). Its balance recorded.",
+    "steps": [
+      "Logged in as ficusroot2, send POST services_proxy/bank/billpay?accountId=<other customer account>&amount=1.00 with a valid JSON Payee body (via page.request).",
+      "Log in as the other customer and check that account balance and activity."
+    ],
+    "testData": {
+      "accountId": "<account owned by another customer>",
+      "amount": "1.00",
+      "payeeName": "Acme Utilities"
+    },
+    "expectedResult": "API responds HTTP 4xx (401/403); the other customer's account balance unchanged and no \"Bill Payment to Acme Utilities\" transaction on it. Expect defect — see AS9."
+  },
+  {
+    "id": "TC-BILLPAY-040",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Rapid double-click on Send Payment produces exactly one debit",
+    "priority": "P1",
+    "type": "Security",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 5.00.",
+      "Double-click Send Payment (dblclick).",
+      "Open Accounts Overview and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "5.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Exactly one POST is accepted; balance reduced by exactly $5.00 (not $10.00); exactly one \"Bill Payment to Acme Utilities\" Debit in Account Activity. Expect defect — see AS13."
+  },
+  {
+    "id": "TC-BILLPAY-041",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Opening billpay.htm while logged out redirects to login",
+    "priority": "P1",
+    "type": "Security",
+    "preconditions": "Not logged in (fresh browser context, no session cookie).",
+    "steps": [
+      "Navigate directly to http://localhost:8080/parabank/billpay.htm."
+    ],
+    "testData": {
+      "session": "none"
+    },
+    "expectedResult": "Bill Payment form is not displayed; the user sees the login form / an error asking them to log in (e.g. \"Please enter a username and password.\"). No payment can be submitted. (AS14)"
+  },
+  {
+    "id": "TC-BILLPAY-042",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Send Payment after session expiry makes no debit and sends user to log in",
+    "priority": "P1",
+    "type": "Security",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50). Balance recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 5.00.",
+      "Clear the session cookie (JSESSIONID) to simulate expiry.",
+      "Click Send Payment.",
+      "Log in again and check balance and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "5.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "No \"Bill Payment Complete\"; user is directed to log in (not only the generic \"An internal error has occurred and has been logged.\" panel); after re-login the balance is unchanged and there is no new transaction. (AS14)"
+  },
+  {
+    "id": "TC-BILLPAY-043",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Script markup in Payee Name is shown literally on confirmation",
+    "priority": "P1",
+    "type": "Security",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state).",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Register a page dialog handler to detect alert().",
+      "Fill Payee Name, Address, City, State, Zip Code, Phone # (locate by [name=\"payee.phoneNumber\"]), Account #, Verify Account # with the test data.",
+      "Enter Amount 1.00.",
+      "Click Send Payment."
+    ],
+    "testData": {
+      "payeeName": "<img src=x onerror=alert(1)>",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Confirmation text reads \"Bill Payment to <img src=x onerror=alert(1)> in the amount of $1.00 from account {fromAccount} was successful.\" with the markup as literal text; no img element injected; no alert dialog fires. (AS15)"
+  },
+  {
+    "id": "TC-BILLPAY-044",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Script markup in Payee Name is not executed in Account Activity (stored XSS)",
+    "priority": "P1",
+    "type": "Security",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). A bill with the XSS Payee Name paid from this account in setup (same payload as TC-BILLPAY-043).",
+    "steps": [
+      "Pay a bill with the XSS Payee Name from the expendable account.",
+      "Register a dialog handler.",
+      "Open the account Account Activity page."
+    ],
+    "testData": {
+      "payeeName": "<img src=x onerror=alert(1)>",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Transaction description shows literally \"Bill Payment to <img src=x onerror=alert(1)>\"; no img element rendered in the activity table; no alert dialog fires. Expect defect — see AS15."
+  },
+  {
+    "id": "TC-BILLPAY-045",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "SQL meta-characters in payee fields are handled literally",
+    "priority": "P2",
+    "type": "Security",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh expendable account opened in setup (throwaway; may be left in an unusual state). Balance of another own account recorded.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Fill every text field with the SQL payload; valid Account #, Verify and Amount.",
+      "Click Send Payment.",
+      "Open Account Activity and Accounts Overview."
+    ],
+    "testData": {
+      "payeeName": "' OR '1'='1",
+      "address": "'; DROP TABLE ACCOUNT;--",
+      "city": "' OR '1'='1",
+      "state": "' OR '1'='1",
+      "zipCode": "' OR '1'='1",
+      "phone": "' OR '1'='1",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<expendable account>"
+    },
+    "expectedResult": "Either rejected with a validation message (no debit), or confirmation shows \"Bill Payment to ' OR '1'='1 in the amount of $1.00 ...\" literally and Account Activity shows the same literal description. Only the expendable account is debited $1.00; other accounts' balances unchanged; Accounts Overview still loads. (AS15)"
+  },
+  {
+    "id": "TC-BILLPAY-046",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Returning to Bill Pay after confirmation shows an empty form",
+    "priority": "P3",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50).",
+    "steps": [
+      "Complete a valid payment of 1.00 (see TC-BILLPAY-001).",
+      "Click the Bill Pay link in the left menu."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "1.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "Heading \"Bill Payment Service\" with \"Enter payee information\"; all 9 inputs empty; first From account preselected; no result/error panel visible. (AS18)"
+  },
+  {
+    "id": "TC-BILLPAY-047",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "Yes",
+    "title": "Refreshing the confirmation page does not submit a second payment",
+    "priority": "P2",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). A fresh CHECKING account opened and funded in setup (Open New Account, then Transfer Funds) so its starting balance is known; NOT the default account 13566 (balance -60,584.50). Balance recorded.",
+    "steps": [
+      "Complete a valid payment of 3.00.",
+      "Reload the page (page.reload()).",
+      "Open Accounts Overview and Account Activity."
+    ],
+    "testData": {
+      "payeeName": "Acme Utilities",
+      "address": "1 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "5551234567",
+      "account": "12345",
+      "verifyAccount": "12345",
+      "amount": "3.00",
+      "fromAccount": "<fresh funded account opened in setup>"
+    },
+    "expectedResult": "After reload an empty Bill Payment Service form is shown (no resubmission); balance reduced by exactly $3.00 in total; exactly one \"Bill Payment to Acme Utilities\" Debit. (AS18)"
+  },
+  {
+    "id": "TC-BILLPAY-048",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "No",
+    "title": "Bill Pay form layout, labels and error placement are visually correct",
+    "priority": "P3",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). On billpay.htm.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Visually inspect labels: Payee Name, Address, City, State, Zip Code, Phone #, Account #, Verify Account #, Amount: $, From account #.",
+      "Submit an empty form and inspect error placement."
+    ],
+    "testData": {
+      "browser": "Chromium, 1366x768"
+    },
+    "expectedResult": "All 10 labels appear in AC1 order and align with their inputs; each inline error appears beside its own field in red without overlapping other controls; Send Payment button is visible without horizontal scroll. (AC1, A12 — visual judgment)"
+  },
+  {
+    "id": "TC-BILLPAY-049",
+    "storyId": "US-BILLPAY-01",
+    "automatable": "No",
+    "title": "From account dropdown is usable with 600+ accounts",
+    "priority": "P3",
+    "type": "Positive",
+    "preconditions": "Logged in as ficusroot2 / test@123 (customer 12434). ficusroot2 has 612+ accounts.",
+    "steps": [
+      "Navigate to http://localhost:8080/parabank/billpay.htm (heading \"Bill Payment Service\").",
+      "Open the From account # dropdown.",
+      "Locate a specific fresh account by scrolling and by typing its digits."
+    ],
+    "testData": {
+      "accountCount": "612+"
+    },
+    "expectedResult": "Dropdown opens within 2 s, can be scrolled and keyboard-searched to the target account, and selection is retained; record usability findings for PO (A9 dropdown behaviour is undefined — subjective judgment)."
+  }
+]

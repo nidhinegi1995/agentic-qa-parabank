@@ -1,0 +1,111 @@
+{
+  "user": {
+    "username": "ficusroot2",
+    "password": "test@123",
+    "customerId": "12434"
+  },
+  "registrationProfile": {
+    "firstName": "Ficus",
+    "lastName": "Root",
+    "street": "1 Test Street",
+    "city": "Testville",
+    "state": "CA",
+    "zipCode": "90001",
+    "phone": "5550100",
+    "ssn": "000-00-0000"
+  },
+  "throwawayUserPrefix": "pw_bp_",
+  "accounts": {
+    "funding": "18561"
+  },
+  "setup": {
+    "newAccountOpeningBalance": "$100.00",
+    "openingDepositDescription": "Funds Transfer Received"
+  },
+  "messages": {
+    "pageTitle": "ParaBank | Bill Pay",
+    "completeTitle": "ParaBank | Bill Payment Complete",
+    "formHeading": "Bill Payment Service",
+    "formSubHeading": "Enter payee information",
+    "paymentComplete": "Bill Payment Complete",
+    "seeAccountActivity": "See Account Activity for more details.",
+    "errorHeading": "Error!",
+    "internalError": "An internal error has occurred and has been logged.",
+    "descriptionPrefix": "Bill Payment to ",
+    "nameRequired": "Payee name is required.",
+    "addressRequired": "Address is required.",
+    "cityRequired": "City is required.",
+    "stateRequired": "State is required.",
+    "zipRequired": "Zip Code is required.",
+    "phoneRequired": "Phone number is required.",
+    "accountRequired": "Account number is required.",
+    "invalidNumber": "Please enter a valid number.",
+    "accountMismatch": "The account numbers do not match.",
+    "amountEmpty": "The amount cannot be empty.",
+    "amountInvalid": "Please enter a valid amount."
+  },
+  "payee": {
+    "payeeName": "Acme Utilities",
+    "address": "1 Main St",
+    "city": "Springfield",
+    "state": "IL",
+    "zipCode": "62701",
+    "phone": "5551234567",
+    "account": "12345",
+    "verifyAccount": "12345"
+  },
+  "cases": {
+    "TC-BILLPAY-001": { "amount": "25.00", "expectedAmount": "$25.00" },
+    "TC-BILLPAY-002": { "amount": "25.00", "expectedAmount": "$25.00", "expectedBalance": "$75.00" },
+    "TC-BILLPAY-003": { "amount": "25", "expectedAmount": "$25.00", "expectedBalance": "$75.00" },
+    "TC-BILLPAY-004": { "amount": "10.00", "expectedAmount": "$10.00", "expectedBalance": "$90.00" },
+    "TC-BILLPAY-005": { "amount": "5.00", "expectedAmount": "$5.00", "expectedBalance": "$95.00" },
+    "TC-BILLPAY-006": { "amount": "1.00", "expectedAmount": "$1.00", "expectedBalance": "$99.00" },
+    "TC-BILLPAY-007": {
+      "amount": "2.00", "expectedAmount": "$2.00",
+      "state": "California", "zipCode": "ABC", "phone": "(555) 123-4567"
+    },
+    "TC-BILLPAY-009": { "amount": "1.00", "whitespace": " " },
+    "TC-BILLPAY-010": { "amount": "1.00" },
+    "TC-BILLPAY-011": { "payeeName": "", "verifyAccount": "99999", "amount": "abc" },
+    "TC-BILLPAY-012": { "account": "abc", "verifyAccount": "abc", "amount": "1.00" },
+    "TC-BILLPAY-013": { "account": "12abc", "verifyAccount": "12abc", "amount": "1.00" },
+    "TC-BILLPAY-014": { "account": "2147483647", "verifyAccount": "2147483647", "amount": "1.00", "expectedAmount": "$1.00", "expectedBalance": "$99.00" },
+    "TC-BILLPAY-015": { "account": "2147483648", "verifyAccount": "2147483648", "amount": "1.00" },
+    "TC-BILLPAY-016": { "verifyAccount": "12346", "amount": "1.00" },
+    "TC-BILLPAY-017": { "verifyAccount": "", "amount": "1.00" },
+    "TC-BILLPAY-018": { "verifyAccount": "012345", "amount": "1.00" },
+    "TC-BILLPAY-019": { "verifyAccount": "12345 ", "amount": "1.00" },
+    "TC-BILLPAY-020": { "verifyAccount": "abc", "amount": "1.00" },
+    "TC-BILLPAY-021": { "amount": "" },
+    "TC-BILLPAY-022": { "amount": "abc" },
+    "TC-BILLPAY-023": { "amount": "$10" },
+    "TC-BILLPAY-024": { "amount": "1,000" },
+    "TC-BILLPAY-025": { "amount": "10abc" },
+    "TC-BILLPAY-026": { "amount": "1e3" },
+    "TC-BILLPAY-027": { "amount": "0" },
+    "TC-BILLPAY-028": { "amount": "-1", "creditedBalance": "$101.00" },
+    "TC-BILLPAY-029": { "amount": "0.01", "expectedAmount": "$0.01", "expectedBalance": "$99.99" },
+    "TC-BILLPAY-030": { "amount": "0.001", "acceptedAmounts": ["$0.00", "$0.01"], "acceptedBalances": ["$100.00", "$99.99"] },
+    "TC-BILLPAY-031": { "amount": "10.005", "acceptedAmounts": ["$10.00", "$10.01"], "acceptedBalances": ["$90.00", "$89.99"] },
+    "TC-BILLPAY-032": { "amount": "100.00", "expectedAmount": "$100.00", "expectedBalance": "$0.00" },
+    "TC-BILLPAY-033": { "amount": "100.01" },
+    "TC-BILLPAY-034": { "amount": "1.00", "drainAmount": "100.00", "zeroBalance": "$0.00" },
+    "TC-BILLPAY-035": { "amount": "999999999" },
+    "TC-BILLPAY-036": { "amount": "1.00", "nameChar": "A", "nameLength": 239, "expectedBalance": "$99.00" },
+    "TC-BILLPAY-037": { "amount": "1.00", "nameChar": "A", "nameLength": 240 },
+    "TC-BILLPAY-038": { "amount": "1.00", "mockStatus": 500 },
+    "TC-BILLPAY-039": { "amount": "1.00" },
+    "TC-BILLPAY-040": { "amount": "5.00", "expectedBalance": "$95.00" },
+    "TC-BILLPAY-042": { "amount": "5.00" },
+    "TC-BILLPAY-043": { "amount": "1.00", "payeeName": "<img src=x onerror=alert(1)>", "expectedAmount": "$1.00" },
+    "TC-BILLPAY-044": { "amount": "1.00", "payeeName": "<img src=x onerror=alert(1)>" },
+    "TC-BILLPAY-045": {
+      "amount": "1.00", "expectedAmount": "$1.00", "expectedBalance": "$99.00",
+      "payeeName": "' OR '1'='1", "address": "'; DROP TABLE ACCOUNT;--",
+      "city": "' OR '1'='1", "state": "' OR '1'='1", "zipCode": "' OR '1'='1", "phone": "' OR '1'='1"
+    },
+    "TC-BILLPAY-046": { "amount": "1.00" },
+    "TC-BILLPAY-047": { "amount": "3.00", "expectedBalance": "$97.00" }
+  }
+}

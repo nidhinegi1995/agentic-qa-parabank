@@ -1,0 +1,245 @@
+[
+  {
+    "id": "TC-BILLPAY-001",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-002",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-003",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-004",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-005",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-006",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-007",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-008",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-009",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-010",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-011",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-012",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-013",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-014",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-015",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-016",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-017",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-018",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-019",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-020",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-021",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-022",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-023",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-024",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-025",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-026",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-027",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-028",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-029",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-030",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-031",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-032",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-033",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-034",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-035",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-036",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-037",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-038",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-039",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-040",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-041",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-042",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-043",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-044",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-045",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-046",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-047",
+    "automationStatus": "Automated",
+    "specFile": "tests/bill-pay.spec.ts"
+  },
+  {
+    "id": "TC-BILLPAY-048",
+    "automationStatus": "Not Started"
+  },
+  {
+    "id": "TC-BILLPAY-049",
+    "automationStatus": "Not Started"
+  }
+]

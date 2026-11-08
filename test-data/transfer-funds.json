@@ -1,0 +1,85 @@
+{
+  "user": {
+    "username": "ficusroot2",
+    "password": "test@123"
+  },
+  "registrationProfile": {
+    "firstName": "Ficus",
+    "lastName": "Root",
+    "street": "1 Test Street",
+    "city": "Testville",
+    "state": "CA",
+    "zipCode": "90001",
+    "phone": "5550100",
+    "ssn": "000-00-0000"
+  },
+  "throwawayUserPrefix": "pw_tmp_",
+  "setup": {
+    "newAccountOpeningBalance": "$100.00"
+  },
+  "otherCustomer": {
+    "accountId": "13455"
+  },
+  "messages": {
+    "transferComplete": "Transfer Complete!",
+    "seeAccountActivity": "See Account Activity for more details.",
+    "errorHeading": "Error!",
+    "internalError": "An internal error has occurred and has been logged.",
+    "amountEmpty": "The amount cannot be empty.",
+    "amountInvalid": "Please enter a valid amount.",
+    "transferSent": "Funds Transfer Sent",
+    "transferReceived": "Funds Transfer Received"
+  },
+  "successfulTransfers": {
+    "standard": {
+      "amount": "25.00",
+      "expectedConfirmationAmount": "$25.00",
+      "expectedFromBalance": "$75.00",
+      "expectedToBalance": "$125.00"
+    },
+    "minimum": {
+      "amount": "0.01",
+      "expectedConfirmationAmount": "$0.01",
+      "expectedFromBalance": "$99.99",
+      "expectedToBalance": "$100.01"
+    },
+    "exactBalance": {
+      "amount": "100.00",
+      "expectedConfirmationAmount": "$100.00",
+      "expectedFromBalance": "$0.00",
+      "expectedToBalance": "$200.00"
+    },
+    "wholeNumber": {
+      "amount": "25",
+      "expectedConfirmationAmount": "$25.00",
+      "expectedFromBalance": "$75.00",
+      "expectedToBalance": "$125.00"
+    },
+    "checkingToSavings": {
+      "amount": "50.00",
+      "expectedConfirmationAmount": "$50.00",
+      "expectedFromBalance": "$50.00",
+      "expectedToBalance": "$150.00"
+    }
+  },
+  "invalidAmounts": {
+    "empty": "",
+    "nonNumeric": "abc",
+    "sqlInjection": "1' OR 1=1--",
+    "overflow": "999999999999999999"
+  },
+  "rejectedAmounts": {
+    "zero": "0",
+    "negative": "-5.00",
+    "overBalance": "100.01",
+    "veryLarge": "999999999",
+    "subCent": "0.001"
+  },
+  "selfTransferAmount": "10.00",
+  "doubleSubmit": {
+    "amount": "10.00",
+    "expectedFromBalance": "$90.00"
+  },
+  "crossAccountAmount": "1.00",
+  "sessionExpiryAmount": "10.00"
+}

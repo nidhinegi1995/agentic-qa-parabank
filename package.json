@@ -1,0 +1,31 @@
+{
+  "name": "agentic-qa-parabank",
+  "version": "1.0.0",
+  "description": "Agentic AI QA framework for ParaBank: Claude Code agents, skills and commands that turn a user story into Playwright tests and an Excel traceability matrix.",
+  "scripts": {
+    "test": "playwright test --project=chromium",
+    "test:all-browsers": "playwright test",
+    "test:transfer": "playwright test tests/transfer-funds.spec.ts --project=chromium",
+    "test:billpay": "playwright test tests/bill-pay.spec.ts --project=chromium",
+    "report": "playwright show-report",
+    "tc": "node utils/excel-helper.js"
+  },
+  "keywords": [
+    "claude-code",
+    "agentic-ai",
+    "playwright",
+    "mcp",
+    "qa-automation",
+    "test-automation",
+    "traceability"
+  ],
+  "author": "Nidhi Negi",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "exceljs": "^4.4.0"
+  },
+  "private": true
+}
