@@ -161,4 +161,4 @@ npm run tc -- trace BillPay
 
 [ParaBank](https://github.com/parasoft/parabank) is © Parasoft and licensed under Apache 2.0; it is not included here. The three `playwright-test-*` agents come from Playwright's `init-agents`. Everything else is mine and under the [MIT license](LICENSE).
 
-Part of my Claude Code learning series: see [claude-code-learning-journal](https://github.com/YOUR-USERNAME/claude-code-learning-journal) and [one-prompt-apps](https://github.com/YOUR-USERNAME/one-prompt-apps).
+Part of my Claude Code learning series: see [claude-code-learning-journal](https://github.com/nidhinegi1995/claude-code-learning-journal) and [one-prompt-apps](https://github.com/nidhinegi1995/one-prompt-apps).
